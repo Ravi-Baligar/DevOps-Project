@@ -51,15 +51,16 @@ pipeline {
 
         stage('Deploy with Helm') {
             steps {
-                withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
-                    sh """
-                        export KUBECONFIG=$KUBECONFIG
+                withCredentials([file(credentialsId: 'kubeconfig', variable: 'KCFG')]) {
+                    sh '''
+                        export KUBECONFIG=$KCFG
+                        kubectl get nodes
                         helm upgrade --install flask-app ./helm-chart \
                           --namespace ${NAMESPACE} \
                           --create-namespace \
                           --set image.repository=${DOCKER_IMAGE} \
                           --set image.tag=${DOCKER_TAG}
-                    """
+                    '''
                 }
             }
         }

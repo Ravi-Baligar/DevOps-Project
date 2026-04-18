@@ -1,0 +1,26 @@
+replicaCount: 1
+
+image:
+  repository: ravi3423/flask-app
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  port: 80
+  targetPort: 5000
+
+ingress:
+  enabled: true
+  className: nginx
+  host: flask.local
+  path: /
+
+env:
+  APP_ENV: local
+
+config:
+  APP_MESSAGE: "Deployed from Jenkins"
+
+volume:
+  mountPath: /app/config

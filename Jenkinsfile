@@ -12,6 +12,7 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 git branch: 'main',
+                    credentialsId: 'github-creds',
                     url: 'https://github.com/Ravi-Baligar/DevOps-Project.git'
             }
         }
@@ -50,13 +51,16 @@ pipeline {
 
         stage('Deploy with Helm') {
             steps {
-                sh """
-                    helm upgrade --install flask-app ./helm-chart \
-                      --namespace ${NAMESPACE} \
-                      --create-namespace \
-                      --set image.repository=${DOCKER_IMAGE} \
-                      --set image.tag=${DOCKER_TAG}
-                """
+                withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
+                    sh """
+                        export KUBECONFIG=$KUBECONFIG
+                        helm upgrade --install flask-app ./helm-chart \
+                          --namespace ${NAMESPACE} \
+                          --create-namespace \
+                          --set image.repository=${DOCKER_IMAGE} \
+                          --set image.tag=${DOCKER_TAG}
+                    """
+                }
             }
         }
     }

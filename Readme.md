@@ -31,17 +31,20 @@ GitHub → Jenkins → Docker → DockerHub → Helm → Minikube Kubernetes
 
 ---
 
-# Project Structure
+## Project Structure
+
+```text
 DevOps-Project/
-│── app/
-│ ├── app.py
-│ ├── requirements.txt
-│ └── Dockerfile
+├── app/
+│   ├── app.py
+│   ├── requirements.txt
+│   └── Dockerfile
 │
-│── helm-chart/
-│ ├── Chart.yaml
-│ ├── values.yaml
-│ └── templates/
+├── helm-chart/
+│   ├── Chart.yaml
+│   ├── values.yaml
+│   └── templates/
 │
-│── Jenkinsfile
-│── README.md
+├── Jenkinsfile
+└── README.md
+```
